@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.QstEnterpriseDao">
+	<!-- 查询 -->
+    <resultMap type="com.qst.entity.EnterpriseEntity" id="findListMap">
+        <result column="id" property="id" />
+        <result column="logo" property="logo"/>
+        <result column="enterName" property="enterName"/>
+		<result column="enterpic" property="enterpic"/>
+		<result column="profile" property="profile"/>
+		<result column="judge" property="judge"/>
+		<result column="author" property="author"/>
+		<result column="createDate" property="createDate"/>
+		<result column="delFlag" property="delFlag"/>
+    </resultMap>
+	<!--查询没删除的-->
+    <select id="getList" resultMap="findListMap">
+		SELECT
+			id,
+			logo,
+			enter_name AS enterName,
+			profile,
+			judge,
+		enterpic,
+		author,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_enterprise
+		WHERE
+			del_flag = '0'
+		ORDER BY
+			create_date DESC
+		<if test="size != null and size != ''">
+			limit 0,#{size}
+		</if>
+	</select>
+	<!--查询所有的，不管有没有删除-->
+	<select id="getAllList" resultMap="findListMap">
+		SELECT
+			id,
+			logo,
+			enter_name AS enterName,
+			profile,
+			enterpic,
+			judge,
+			author,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_enterprise
+		ORDER BY
+			create_date DESC
+	</select>
+	<!--根据id获得model-->
+	<select id="getModelById" resultMap="findListMap">
+		SELECT
+			id,
+			logo,
+			enter_name AS enterName,
+			profile,
+			enterpic,
+			judge,
+			author,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_enterprise
+		WHERE id=#{id}
+	</select>
+    <!-- 新增 -->
+    <sql id="cols">
+		logo,enter_name,profile,judge,author,enterpic
+	</sql>
+    <insert id="save" parameterType="com.qst.entity.EnterpriseEntity">
+		insert into qst_enterprise(
+		<include refid="cols" />
+		) values (#{logo},#{enterName},#{profile},#{judge},#{author},#{enterpic})
+	</insert>
+	<!-- 更新-->
+	<update id="update" parameterType="com.qst.entity.EnterpriseEntity">
+		update qst_enterprise  SET logo =#{logo},
+		enter_name=#{enterName},profile= #{profile},judge= #{judge},author= #{author},enterpic= #{enterpic}
+		where id=#{id}
+	</update>
+	<!-- 删除-->
+	<update id="delete">
+		update qst_enterprise t SET t.del_flag =1
+		where t.id=#{id}
+	</update>
+	<select id="getPageList"  resultMap="findListMap" parameterType="int">
+		SELECT
+			id,
+			logo,
+			enter_name AS enterName,
+			profile,
+			enterpic,
+			judge,
+			author,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_enterprise
+		ORDER BY
+			create_date DESC
+		LIMIT #{currentpage},10
+	</select>
+	<select id="getCounts"  resultType="long" >
+		select count(*) from qst_enterprise
+
+	</select>
+</mapper>

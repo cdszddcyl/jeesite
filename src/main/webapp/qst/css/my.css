@@ -1,0 +1,48 @@
+.logo{
+    width: 95px;
+    height: 54px;
+}
+.layout{
+    display: none;
+}
+.selecteditem{
+    color: red;
+}
+.xianzhi{
+    width: 200px;
+    height: 100px;
+}
+.mask{
+    position: fixed;
+    z-index: 99;
+    top:50%;
+    left:50%;
+    width:12%;
+    background: #46AEE9;
+    padding: 6px;
+    border: 1px solid #dedede;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 18px;
+    display: none;
+    color: #fff;
+}
+
+.mask-info{
+    position: relative;
+    top:2px;
+    text-align: center;
+}
+.layout_iknow{display:none;position:fixed;top:30%;left:40%;border-radius: 10px;text-align: center;width:25%;z-index: 10;background-color: #EAEAEA;display: none;height:150px;}
+.layout_iknow p{padding:20px 5px;border-bottom: 1px solid #F1F1F1;font-size: 16px;height:40%;margin:0}
+.layout_iknow button{display: inline;height:20%;text-align: center;color:#48AEFF;font-weight: bold;width:65px;margin-left:15px;}
+.golink{
+    margin-right: 5px;
+}
+.golink:hover {
+    cursor: pointer;
+    text-decoration: underline;
+
+}
+
+

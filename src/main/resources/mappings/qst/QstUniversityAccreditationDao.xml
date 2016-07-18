@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.QstUniversityAccreditationDao">
+	<!-- 查询高校合作列表 -->
+    <resultMap type="com.qst.entity.UniversityAccreditationEntity" id="findUniversityAccreditationlListMap">
+        <result column="id" property="id" />
+        <result column="univerLogo" property="univerLogo"/>
+        <result column="univerName" property="univerName"/>
+		<result column="cooperationProfile" property="cooperationProfile"/>
+		<result column="reply" property="reply"/>
+		<result column="author" property="author"/>
+		<result column="createDate" property="createDate"/>
+		<result column="delFlag" property="delFlag"/>
+    </resultMap>
+    <select id="getUniversityAccreditationlList" resultMap="findUniversityAccreditationlListMap">
+		SELECT
+			id,
+			create_date AS createDate,
+			del_flag AS delFlag,
+			univer_logo AS univerLogo,
+			univer_name AS univerName,
+			cooperation_profile AS cooperationProfile,
+			reply,author,create_date as createDate
+		FROM
+			qst_university_accreditation
+		WHERE
+			del_flag = '0'
+
+		ORDER BY
+			create_date DESC
+		<if test="size != null and size != ''">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<select id="getAllList" resultMap="findUniversityAccreditationlListMap">
+		SELECT
+		id,
+		create_date AS createDate,
+		del_flag AS delFlag,
+		univer_logo AS univerLogo,
+		univer_name AS univerName,
+		cooperation_profile AS cooperationProfile,
+		reply,
+		author,create_date as createDate
+		FROM
+		qst_university_accreditation
+		ORDER BY
+		create_date DESC
+	</select>
+	<select id="getPageList"  resultMap="findUniversityAccreditationlListMap" parameterType="int">
+		SELECT
+		id,
+		create_date AS createDate,
+		del_flag AS delFlag,
+		univer_logo AS univerLogo,
+		univer_name AS univerName,
+		cooperation_profile AS cooperationProfile,
+		reply,author,create_date as createDate
+		FROM
+		qst_university_accreditation
+
+		ORDER BY
+		create_date DESC
+		LIMIT #{currentpage},10
+	</select>
+	<select id="getModelById" resultMap="findUniversityAccreditationlListMap" >
+		SELECT
+		id,
+		create_date AS createDate,
+		del_flag AS delFlag,
+		univer_logo AS univerLogo,
+		univer_name AS univerName,
+		cooperation_profile AS cooperationProfile,
+		reply,author,create_date as createDate
+		FROM
+		qst_university_accreditation
+		WHERE id=#{id}
+	</select>
+    <!-- 新增认可 -->
+    <sql id="cols">
+		univer_logo,univer_name,cooperation_profile,reply,author
+	</sql>
+    <insert id="saveyAccreditation" parameterType="com.qst.entity.UniversityAccreditationEntity">
+		insert into qst_university_accreditation(
+		<include refid="cols" />
+		) values (#{univerLogo},#{univerName},#{cooperationProfile},#{reply},#{author})
+	</insert>
+	<!-- 更新认可 -->
+	<update id="updateAccreditation" parameterType="com.qst.entity.UniversityAccreditationEntity">
+		update qst_university_accreditation  SET univer_logo =#{univerLogo},
+		univer_name=#{univerName},cooperation_profile=#{cooperationProfile} ,
+		reply=#{reply},author=#{author}
+		where id=#{id}
+	</update>
+	<!-- 删除认可 -->
+	<update id="deleteAccreditation">
+		update qst_university_accreditation t SET t.del_flag =1
+		where t.id=#{id}
+	</update>
+	<select id="getCounts"  resultType="long" >
+		select count(*) from qst_university_accreditation
+
+	</select>
+	<select id="getNoDeleteCounts"  resultType="long" >
+		select count(*) from qst_university_accreditation
+		WHERE  del_flag=0
+	</select>
+</mapper>

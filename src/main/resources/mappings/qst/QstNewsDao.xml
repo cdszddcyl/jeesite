@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.QstNewsDao">
+
+	<resultMap type="com.qst.entity.NewsEntity" id="newsMap">
+		<id property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="descContent" column="descContent" />
+		<result property="imgUrl" column="imgUrl" />
+		<result property="messageType" column="messageType" />
+		<result property="type" column="type" />
+		<result property="insertTime" column="insertTime" />
+		<result property="status" column="status" />
+		<result property="linkUrl" column="linkUrl" />
+		<result property="shortTime" column="shortTime" />
+		<result property="showTime" column="showTime" />
+		<result property="guanhuai" column="guanhuai" />
+		
+	</resultMap>
+	<select id="getNewsPageList" parameterType="map" resultType="list"
+		resultMap="newsMap">
+
+		SELECT
+			ttt.id,
+			ttt.title,
+			ttt.content,
+			ttt.desc_content as descContent,
+			ttt.img_url,
+			ttt.type,
+			ttt.status,
+		guanhuai,
+			DATE_FORMAT(
+				ttt.insert_time,
+				'%Y-%m-%d %T'
+			) AS insertTime,
+			DATE_FORMAT(
+				ttt.insert_time,
+				'%Y-%m-%d'
+			) AS shortTime,
+			DATE_FORMAT(
+			ttt.show_time,
+			'%Y-%m-%d %T'
+			) AS showTime,
+			ttt.insert_user as insertUser,
+			ttt.message_type as messageType,
+			ttt.link_url as linkUrl
+			from qst_news ttt
+		<where>
+			1=1 
+			<if test="status != null and status != ''">
+				and status =#{status}
+			</if>
+			<if test="guanhuai != null and guanhuai != ''">
+				and guanhuai =#{guanhuai}
+			</if>
+			<if test="messageType != null and messageType != ''">
+				and message_type=#{messageType}
+				<if test="messageType == 0 and type != null and type != ''">
+						and type =#{type}
+				</if>
+			</if>
+			
+			<if test="title != null and title != ''">
+				and title like '%${title}%' 
+			</if>
+		</where>
+		order by show_time desc
+			LIMIT ${startIndex},${endIndex}
+	</select>
+
+	<select id="getNewspageCounts" parameterType="map" resultType="long">
+		select count(*) from qst_news
+		<where>
+			1=1 
+			<if test="status != null and status != ''">
+				and status =#{status}
+			</if>
+			<if test="guanhuai != null and guanhuai != ''">
+				and guanhuai =#{guanhuai}
+			</if>
+			<if test="messageType != null and messageType != ''">
+				and message_type=#{messageType}
+				<if test="messageType == 0 and type != null and type != ''">
+						and type =#{type}
+				</if>
+			</if>
+			
+			<if test="title != null and title != ''">
+				and title like '%${title}%' 
+			</if>
+		</where>
+	</select>
+	
+	<select id="getNewsById"  resultMap="newsMap">
+		select id,
+			title,
+			content,
+			desc_content as descContent,
+			img_url,
+			type,
+			status,
+		guanhuai,
+			DATE_FORMAT(
+				insert_time,
+				'%Y-%m-%d %T'
+			) AS insertTime,
+			DATE_FORMAT(
+				insert_time,
+				'%Y-%m-%d'
+			) AS shortTime,
+		DATE_FORMAT(
+		ttt.show_time,
+		'%Y-%m-%d %T'
+		) AS showTime,
+			insert_user as insertUser,
+			message_type as messageType,
+			link_url as linkUrl
+			from qst_news  ttt
+		<where>
+			id=#{id} 
+		</where>
+	</select>
+	<!-- 新增新闻 -->
+	 <sql id="cols">
+		title,content,desc_content,img_url,message_type,type,insert_time,status,insert_user,link_url,show_time,guanhuai
+	</sql>
+	<insert id="saveNews" parameterType="com.qst.entity.NewsEntity">
+		insert into qst_news(
+		<include refid="cols" />
+		) values (#{title},#{content},#{descContent},#{imgUrl},#{messageType},#{type},#{insertTime},#{status},#{insertUser},#{linkUrl},#{showTime},#{guanhuai})
+	</insert>
+	<!-- 更新新闻-->
+	<update id="updateNews">
+		update qst_news  SET title =#{title},content=#{content},desc_content=#{descContent},img_url=#{imgUrl},message_type=#{messageType},
+		type=#{type},insert_time=#{insertTime},status=#{status},insert_user=#{insertUser},link_url=#{linkUrl},show_time=#{showTime},guanhuai=#{guanhuai}
+		where id=#{id}
+	</update>
+</mapper>

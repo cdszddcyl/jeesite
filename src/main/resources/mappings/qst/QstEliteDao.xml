@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.QstEliteDao">
+	<!-- 查询 -->
+    <resultMap type="com.qst.entity.EliteEntity" id="findListMap">
+        <result column="id" property="id" />
+        <result column="picture" property="picture"/>
+        <result column="personName" property="personName"/>
+		<result column="depart" property="depart"/>
+		<result column="position" property="position"/>
+		<result column="introduction" property="introduction"/>
+		<result column="createDate" property="createDate"/>
+		<result column="delFlag" property="delFlag"/>
+    </resultMap>
+	<!--查询没删除的-->
+    <select id="getList" resultMap="findListMap">
+		SELECT
+			id,
+			picture,
+			person_name AS personName,
+			depart,
+			position,
+			introduction,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_elite
+		WHERE
+			del_flag = '0'
+		ORDER BY
+			create_date DESC
+		<if test="size != null and size != ''">
+			limit 0,#{size}
+		</if>
+	</select>
+	<!--查询所有的，不管有没有删除-->
+	<select id="getAllList" resultMap="findListMap">
+		SELECT
+			id,
+			picture,
+			person_name AS personName,
+			depart,
+			position,
+			introduction,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_elite
+		ORDER BY
+			create_date DESC
+	</select>
+	<!--根据id获得model-->
+	<select id="getModelById" resultMap="findListMap">
+		SELECT
+			id,
+			picture,
+			person_name AS personName,
+			depart,
+			position,
+			introduction,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_elite
+		WHERE id=#{id}
+	</select>
+    <!-- 新增 -->
+    <sql id="cols">
+		picture,person_name,depart,position,introduction
+	</sql>
+    <insert id="save" parameterType="com.qst.entity.EliteEntity">
+		insert into qst_elite(
+		<include refid="cols" />
+		) values (#{picture},#{personName},#{depart},#{position},#{introduction})
+	</insert>
+	<!-- 更新-->
+	<update id="update" parameterType="com.qst.entity.EliteEntity">
+		update qst_elite  SET picture =#{picture},
+		person_name=#{personName},depart=#{depart} ,
+		position=#{position},introduction=#{introduction}
+		where id=#{id}
+	</update>
+	<!-- 删除-->
+	<update id="delete">
+		update qst_elite t SET t.del_flag =1
+		where t.id=#{id}
+	</update>
+	<select id="getPageList"  resultMap="findListMap" parameterType="int">
+		SELECT
+			id,
+			picture,
+			person_name AS personName,
+			depart,
+			position,
+			introduction,
+			create_date AS createDate,
+			del_flag AS delFlag
+		FROM
+			qst_elite
+		ORDER BY
+			create_date DESC
+		LIMIT #{currentpage},10
+	</select>
+	<select id="getCounts"  resultType="long" >
+		select count(*) from qst_elite
+
+	</select>
+</mapper>

@@ -1,0 +1,57 @@
+@charset "UTF-8";
+/********************************
+ * IE9以下兼容样式
+ ******************************** */
+
+.ie{
+    .banner{
+        .banner-arrow{
+            .arrow-span{display:block;}
+            .arrow{display:none;}
+        }
+    }
+    /*.mainWrapper{
+        .main-title{
+            .title-box{
+                .title-name{
+                    margin-top:-47px;
+                }
+            }
+        }
+    }*/
+    .businessWrapper{
+        .company{
+            .company-list{
+                li{
+                    margin:120px 18px 0;
+                    &:nth-child(3n+1){margin-left:18px;}
+                }
+            }
+        }
+    }
+    .informationWrapper{
+        .news{
+            .news-list{
+                li{
+                    margin:10px;
+                    &:nth-child(2n){margin-right:10px;}
+                    &:nth-child(4n),&:nth-child(4n+3){background:#fff;box-shadow:0 0 10px #eee;}
+                }
+            }
+        }
+        .viewpoint-list{
+            li{
+                margin:10px 13px;
+                &:nth-child(3n+1){margin-left:13px;}
+            }
+        }
+    }
+    /*.aboutWrapper{
+        .introduce{
+            .intro-video{
+                display:none;
+                video{display:none;}
+            }
+        }
+    }*/
+}

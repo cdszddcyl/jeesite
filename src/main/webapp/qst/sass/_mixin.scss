@@ -1,0 +1,54 @@
+@charset "utf-8";
+/****************************************************************************************************
+* Mixins - 公用函数
+****************************************************************************************************/
+@mixin fontSize($size:14) {
+    font-size: #{$size}px;
+}
+
+@mixin button(
+    $width:60px,
+    $height:30px,
+    $bgcolor: white,
+    $font-color: $content,
+    $font-size: 14,
+    $radius: 0px,
+    $confirm: true,
+    $bdcolor: $border-color
+) {
+    height: $height;
+    min-width: $width;
+    display: inline-block;
+    background-color: $bgcolor;
+    color: $font-color;
+    @include fontSize($font-size);
+    border-radius: $radius;
+    cursor: pointer;
+    padding: 0 8px;
+    text-align: center;
+    line-height: $height;
+    box-sizing: border-box;
+    &:disabled{
+        cursor: default !important;
+    }
+    @if $confirm{
+        border: none;
+        line-height: $height;
+    } @else{
+        border: 1px solid $bdcolor;
+        line-height: $height - 2px;
+    }
+}
+
+@mixin background(
+    $url:"",
+    $color:transparent,
+    $size:auto
+) {
+    background-color: $color;
+    background-image: url($url);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: $size;
+}
+

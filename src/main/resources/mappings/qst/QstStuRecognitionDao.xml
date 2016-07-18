@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.QstStuRecognitionDao">
+	<!-- 查询 -->
+    <resultMap type="com.qst.entity.StuRecognitionEntity" id="findListMap">
+        <result column="id" property="id" />
+        <result column="content" property="content"/>
+        <result column="school" property="school"/>
+		<result column="createDate" property="createDate"/>
+		<result column="delFlag" property="delFlag"/>
+    </resultMap>
+	<!--查询没删除的-->
+    <select id="getList" resultMap="findListMap">
+		SELECT
+			id,
+			content,
+			school,
+			del_flag AS delFlag,
+			create_date AS createDate
+		FROM
+			qst_stu_recognition
+		WHERE
+			del_flag = '0'
+		ORDER BY
+			create_date DESC
+		<if test="size != null and size != ''">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<!--查询所有的，不管有没有删除-->
+	<select id="getAllList" resultMap="findListMap">
+		SELECT
+			id,
+			content,
+			school,
+			del_flag AS delFlag,
+			create_date AS createDate
+		FROM
+			qst_stu_recognition
+		ORDER BY
+			create_date DESC
+	</select>
+	<!--根据id获得model-->
+	<select id="getModelById" resultMap="findListMap">
+		SELECT
+			id,
+			content,
+			school,
+			del_flag AS delFlag,
+			create_date AS createDate
+		FROM
+			qst_stu_recognition
+		WHERE id=#{id}
+	</select>
+    <!-- 新增 -->
+    <sql id="cols">
+		content,school
+	</sql>
+    <insert id="save" parameterType="com.qst.entity.StuRecognitionEntity">
+		insert into qst_stu_recognition(
+		<include refid="cols" />
+		) values (#{content},#{school})
+	</insert>
+	<!-- 更新-->
+	<update id="update" parameterType="com.qst.entity.StuRecognitionEntity">
+		update qst_stu_recognition  SET content =#{content},
+		school=#{school}
+		where id=#{id}
+	</update>
+	<!-- 删除-->
+	<update id="delete">
+		update qst_stu_recognition t SET t.del_flag =1
+		where t.id=#{id}
+	</update>
+	<select id="getPageList"  resultMap="findListMap" parameterType="int">
+		SELECT
+			id,
+			content,
+			school,
+			del_flag AS delFlag,
+			create_date AS createDate
+		FROM
+			qst_stu_recognition
+		ORDER BY
+			create_date DESC
+		LIMIT #{currentpage},10
+	</select>
+	<select id="getCounts"  resultType="long" >
+		select count(*) from qst_stu_recognition
+
+	</select>
+</mapper>

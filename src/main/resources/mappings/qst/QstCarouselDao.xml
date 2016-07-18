@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.dao.QstCarouselDao">
+	<!-- 查询轮播图 -->
+    <resultMap type="com.qst.entity.CarouselEntity" id="findCarouselListMap">
+        <result column="id" property="id" />
+        <result column="picUrl" property="picUrl"/>
+        <result column="insertUser" property="insertUser"/>
+        <result column="insertTimeStr" property="insertTimeStr"/>
+        <result column="updateTimeStr" property="updateTimeStr"/>
+         <result column="status" property="status"/>
+         <result column="linkUrl" property="linkUrl"/>
+    </resultMap>
+    <select id="getCarouselList" resultMap="findCarouselListMap">
+        SELECT
+			id,
+			pic_url AS picUrl,
+			insert_user AS insertUser,
+			DATE_FORMAT(insert_time, '%Y-%m-%d %T') AS insertTimeStr,
+			DATE_FORMAT(update_time, '%Y-%m-%d %T') AS updateTimeStr,
+			status,
+			link_url AS linkUrl
+		FROM
+			qst_carousel
+		WHERE
+			status = 0
+		ORDER BY
+			insert_time DESC
+    </select>
+    <!-- 新增轮播图 -->
+    <sql id="cols">
+		pic_url,insert_user,insert_time,update_time,status,link_url,content
+	</sql>
+    <insert id="saveCarousel" parameterType="com.qst.entity.CarouselEntity">
+		insert into qst_carousel(
+		<include refid="cols" />
+		) values (#{picUrl},#{insertUser},#{insertTime},#{updateTime},#{status},#{linkUrl},#{content})
+	</insert>
+	<!-- 更新轮播图 -->
+	<update id="deleteCarousel">
+		update qst_carousel t SET t.status =#{status},insert_time=#{insertTime},update_time=#{updateTime},pic_url=#{picUrl},link_url=#{linkUrl}
+		where t.id=#{id}
+	</update>
+	
+	<select id="findList" resultMap="findCarouselListMap">
+        SELECT
+			id,
+			pic_url AS picUrl,
+			insert_user AS insertUser,
+			DATE_FORMAT(insert_time, '%Y-%m-%d %T') AS insertTimeStr,
+			DATE_FORMAT(update_time, '%Y-%m-%d %T') AS updateTimeStr,
+			status,
+			link_url AS linkUrl
+		FROM
+			qst_carousel
+		WHERE
+			status = 0
+		ORDER BY
+			insert_time DESC
+    </select>
+    
+    <select id="findListByPage" resultMap="findCarouselListMap">
+        SELECT
+			id,
+			pic_url AS picUrl,
+			insert_user AS insertUser,
+			DATE_FORMAT(insert_time, '%Y-%m-%d %T') AS insertTimeStr,
+			DATE_FORMAT(update_time, '%Y-%m-%d %T') AS updateTimeStr,
+			status,
+			link_url AS linkUrl
+		FROM
+			qst_carousel
+		WHERE
+			1=1 
+			<if test="status != null and status != ''">
+				and status=#{status}
+			</if>
+		ORDER BY
+			insert_time DESC
+			LIMIT ${startIndex},${endIndex}
+    </select>
+    
+    <select id="getCarouselCounts" parameterType="map" resultType="long">
+		select count(*) from qst_carousel
+		<where>
+			1=1 
+			<if test="status != null and status != ''">
+				and status=#{status}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="getCarouselById" resultMap="findCarouselListMap">
+        SELECT
+			id,
+			pic_url AS picUrl,
+			insert_user AS insertUser,
+			DATE_FORMAT(insert_time, '%Y-%m-%d %T') AS insertTimeStr,
+			DATE_FORMAT(update_time, '%Y-%m-%d %T') AS updateTimeStr,
+			status,
+			link_url AS linkUrl
+		FROM
+			qst_carousel
+		WHERE
+			id = #{id}
+		ORDER BY
+			insert_time DESC
+    </select>
+</mapper>

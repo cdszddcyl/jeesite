@@ -1,0 +1,116 @@
+@charset "UTF-8";
+/********************************
+ * 关于青软
+ ******************************** */
+
+.aboutWrapper{
+    .main-title{@include background("../images/about-bg.png");}
+    .tabs{width:1000px;margin-left:-500px;}
+    //企业介绍
+    .introduce{
+        overflow:hidden;
+        .section-content{
+            padding-bottom:30px;
+            p{padding-top:20px;text-indent:2em;}
+        }
+        .intro-video{
+            width:1250px;margin:15px auto;
+        }
+        .intro-pic{
+            li{
+                width:350px;height:225px;float:left;padding-top:30px;
+                img{width:100%;height:100%;}
+            }
+        }
+        .intro-school{
+
+            @include background("../images/enviro-sch.png",transparent,100% 100%);
+        }
+    }
+    //企业文化
+    .culture{
+        .culture-list{
+            width:724px;margin:0 auto;
+            li{
+                width:50%;height:241px;float:left;overflow:hidden;box-sizing:border-box;background:$bg-gray;
+                h5{
+                    @include fontSize(30);padding:50px 20px 30px;margin-bottom:10px;
+                    span{padding:10px 0;border-bottom:2px solid $blue;}
+                }
+                p{@include fontSize(16);padding:0 20px;}
+                img{width:100%;height:100%;}
+                /*&.culture-name{
+                    background:$blue;color:#fff;
+                    h4{margin:30px 0 5px;padding:15px 0;border:1px solid #fff;@include fontSize(40);text-align:center;}
+                    div{
+                        width:30px;height:30px;margin:25px auto;position:relative;transform:rotate(45deg);
+                        &:before{content:"";display:block;width:100%;height:2px;background:#fff;position:absolute;top:14px;left:0;}
+                        &:after{content:"";display:block;height:100%;width:2px;background:#fff;position:absolute;left:14px;top:0;}
+                    }
+                    p{@include fontSize(12);}
+                }*/
+            }
+
+        }
+    }
+    //创始人
+    .founder{
+        overflow:hidden;
+        .founder-msg{
+            display:table;width:$width-wrapper;margin:0 auto;
+            .td{display:table-cell;}
+            .founder-intro{
+                padding:0 10px;width:305px;
+                .founder-name{padding:3px 5px;background:#333;color:#fff;@include fontSize(18);}
+                .founder-pic{
+                    width:100%;height:220px;padding:15px 0;
+                    img{width:100%;height:100%;}
+                }
+            }
+            .founder-resume{
+                padding:0 20px;border-left:1px dashed $border-color;
+                h5{color:$dark;@include fontSize(18);padding-bottom:5px;}
+                p{@include fontSize(14);}
+                .resume-main p{
+                    padding-top:30px;position:relative;
+                    &:before{content:"";display:block;width:35px;height:1px;background:$blue-light;position:absolute;top:20px;left:0;}
+                }
+                .resume-date{width:170px;padding:8px 0;@include fontSize(28);color:$blue-light;vertical-align:middle;}
+                .resume-info{padding:8px 20px 8px 0;vertical-align:middle;}
+            }
+        }
+    }
+    //联系我们
+    .contact{
+        .map-list{
+            width:950px;margin:0 auto;padding:50px 0;counter-reset:num;
+            li{
+                display:table;width:100%;height:180px;margin:20px auto;counter-increment:num;
+                &:nth-child(4n+1) .map-index{background:#f4d98f;}
+                &:nth-child(4n+2) .map-index{background:#b8e683;}
+                &:nth-child(4n+3) .map-index{background:#8acdf7;}
+                &:nth-child(4n) .map-index{background:#aa92e8;}
+                .td{display:table-cell;}
+                .map-index{
+                    height:100%;width:112px;text-align:center;vertical-align:middle;@include fontSize(56);color:#fff;background:$blue;
+                    &:before{content:counter(num);}
+                }
+                .map-msg{
+                    background:$bg-gray;padding:0 20px;overflow:hidden;
+                    h5{padding:30px 0 25px;@include fontSize(16);color:$blue;}
+                    p{
+                        margin:8px 0;
+                        span{
+                            display:table-cell;
+                            &:first-child{color:$dark;font-weight:bold;width:35px;}
+                        }
+                    }
+                }
+                .map-img{
+                    width:380px;height:180px;position:relative;background:$bg-gray;text-align:center;vertical-align:middle;
+                    img{max-width:100%;max-height:100%;width:100%;height:100%;}
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/********************************
+ * 产品创新
+ ******************************** */
+
+.innovateWrapper{
+    .tabs{width:500px;margin-left:-250px;}
+    .tab{
+        overflow:hidden;display:none;
+        &.books{display:block;}
+    }
+    .books-list{
+        width:840px;margin:30px auto;
+        img{width:100%;}
+     }
+    .courses-list{
+        width:650px;margin:30px auto;
+        img{width:100%;}
+    }
+}
